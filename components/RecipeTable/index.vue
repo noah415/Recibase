@@ -20,6 +20,7 @@
         <thead>
             <tr>
                 <th>Recipe Name</th>
+                <th>Recipe URL</th>
                 <th>Meal Type</th>
                 <th>Cuisine</th>
                 <th>Utils</th>
@@ -28,6 +29,9 @@
         <tbody>
             <tr v-for="(recipe, index) in $props.recipes">
                 <td>{{ recipe.name }}</td>
+                <td>
+                  <a :href="recipe.source" target="_blank">{{ recipe.source }}</a>
+                </td>
                 <td>{{ recipe.mealType }}</td>
                 <td>{{ recipe.cuisine }}</td>
                 <td>

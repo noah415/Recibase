@@ -29,6 +29,7 @@
   ];
 
   let recipeName = ref(props.initialData ? props.initialData.name : null);
+  let recipeSource = ref(props.initialData ? props.initialData.source : null);
   let cuisine = ref(props.initialData ? props.initialData.cuisine : cuisines[0]);
   let mealType = ref(props.initialData ? props.initialData.mealType : mealTypes[0]);
   let ingredients = ref<Ingredient[]>(props.initialData ? props.initialData.ingredients : []);
@@ -40,6 +41,7 @@
 
   function clearAllData() {
     recipeName.value = '';
+    recipeSource.value = '';
     mealType.value = mealTypes[0];
     cuisine.value = cuisines[0];
     ingredients.value = [];
@@ -59,6 +61,7 @@
   function saveRecipe() {
     props.addRecipe({
       name: recipeName.value,
+      source: recipeSource.value,
       cuisine: cuisine.value,
       mealType: mealType.value,
       ingredients: ingredients.value,
@@ -77,6 +80,7 @@
       <div class="addRecipeContainer">
         <div class="inputColumn">
           <input class="uk-input" placeholder="Name" v-model="recipeName">
+          <input class="uk-input" placeholder="URL" v-model="recipeSource">
           <select class="uk-select" v-model="cuisine" placeholder="Cuisine">
             <option v-for="choice in cuisines" :value="choice">{{ choice }}</option>
           </select>
