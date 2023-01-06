@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
   const props = defineProps<{
     name: string,
     initialData: any,
@@ -71,10 +70,10 @@
 </script>
 
 <template>
-  <div class="uk-card uk-card-default">
+  <div class="uk-card uk-card-default recipe">
     <div class="uk-card-header headerRow">
       <h3 class="uk-card-title">{{ $props.name }}</h3>
-      <button @click="onCancel" class="uk-button">Cancel</button>
+      <button @click="onCancel" class="uk-button uk-button-default">Cancel</button>
     </div>
     <div class="uk-card-body">
       <div class="addRecipeContainer">
@@ -101,7 +100,7 @@
             <p>No Ingredients?</p>
           </div>
           <button @click="addIngredient" class="uk-button">Add Ingredient</button>
-          <button @click="saveRecipe" class="uk-button save">Save</button>
+          <button @click="saveRecipe" class="uk-button uk-button-primary save">Save</button>
         </div>
       </div>
     </div>
@@ -110,6 +109,13 @@
 
 
 <style>
+  .recipe {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    top: 12ch;
+    z-index: 5;
+  }
   input.name {
     width: 70%;
   }

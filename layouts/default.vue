@@ -1,3 +1,4 @@
+
 <template>
   <div class="template">
     <h1 class="title">ReciBase</h1>
@@ -12,8 +13,9 @@
   }
   .template {
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
+    background-color: #a9b1c2;
+    height: 100vh;
   }
 </style>

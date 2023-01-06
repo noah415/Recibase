@@ -1,4 +1,9 @@
 <script setup lang="ts">
+  definePageMeta({
+    middleware: ["auth"]
+    // or middleware: 'auth'
+  })
+
   const recipes = ref<any[]>([]); 
   let isAddRecipe = ref<boolean>(false);
   let isEditRecipe = ref<boolean>(false);
