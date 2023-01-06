@@ -14,9 +14,9 @@
       <input class="uk-input" placeholder="Firstname">
       <input class="uk-input uk-margin-top" placeholder="Lastname">
       <input class="uk-input uk-margin-top" placeholder="Username">
-      <input class="uk-input uk-margin-top" placeholder="Password">
-      <input class="uk-input uk-margin-top" placeholder="Confirm Password">
-      <input class="uk-input uk-margin-top" placeholder="Email (optional)">
+      <input type="password" class="uk-input uk-margin-top" placeholder="Password">
+      <input type="password" class="uk-input uk-margin-top" placeholder="Confirm Password">
+      <input type="email" class="uk-input uk-margin-top" placeholder="Email (optional)">
       <input class="uk-input uk-margin-top" placeholder="Age (optional)">
       <div class="buttonRow">
         <NuxtLink class="uk-button uk-button-default" to="/login">Login</NuxtLink>

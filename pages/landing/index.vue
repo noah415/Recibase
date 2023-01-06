@@ -11,7 +11,7 @@
   let duplicateRecipeName = ref<boolean>(false);
   let selectedRecipe = ref<any>();
   let selectedIndex = ref<number>();
-  let username = "notuska"
+  let username = localStorage.username;
 
   function checkDuplicateRecipe(data: any) {
     let res: boolean = false;
@@ -63,12 +63,16 @@
     selectedRecipe.value = JSON.parse(JSON.stringify(recipes.value[index]));
     toggleIsEditRecipe();
   }
+  function logout() {
+    localStorage.removeItem('refreshToken');
+    navigateTo('/login');
+  }
 </script>
 
 <template>
   <div class="uk-card-default uk-card logout">
     <span class="uk-margin-right">Hello, {{ username }}</span>
-    <NuxtLink class="uk-button uk-button-danger" to="/login">Logout</NuxtLink>
+    <button class="uk-button uk-button-danger" @click="logout">Logout</button>
   </div>
   <Recipe v-if="isAddRecipe" initial-data="" :destroy="toggleIsAddRecipe" :add-recipe="addRecipe" name="Let's add a recipe!"/>
   <button @click="toggleIsAddRecipe" class="uk-button uk-card-default" v-else>Add Recipe</button>

@@ -1,8 +1,11 @@
 export default defineNuxtRouteMiddleware((to, from) => {
   if (localStorage.refreshToken) {
-    console.log("no refresh token")
-    return navigateTo(to);
+    console.log(to.fullPath);
   } else {
-    return navigateTo('/login');
+    console.log("no refresh token");
+    if (from.fullPath != '/login') {
+      return navigateTo('/login');
+    }
+    return abortNavigation();
   }
 })
