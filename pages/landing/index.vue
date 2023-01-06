@@ -100,9 +100,10 @@
 
   .alert {
     position: absolute;
-    top: 0;
-    right: 1;
+    left: 0;
+    bottom: 0;
   }
+  
   .logout {
     padding: 2ch;
     position: absolute;

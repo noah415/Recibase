@@ -1,13 +1,13 @@
 <script setup lang="ts">
+  interface LoginResp {
+    refreshToken: string,
+  }
+
   let username = ref<string>(localStorage.username);
   let password = ref<string>();
   let invalidUsername = ref<string>();
   let invalidPassword = ref<string>();
   let invalidCredentials = ref<boolean>(false);
-
-  interface LoginResp {
-    refreshToken: string,
-  }
 
   async function login() {
     const usr: string | undefined = !invalidCredentials.value ?
@@ -25,7 +25,6 @@
     });
 
     if (error.value) {
-      console.log(error.value)
       invalidUsername.value = username.value;
       invalidCredentials.value = true;
     } else if (data.value) {
