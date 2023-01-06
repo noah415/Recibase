@@ -9,7 +9,7 @@
   let password = ref<string>();
   let confPassword = ref<string>();
   let email = ref<string>();
-  let age = ref<string>();
+  let age = ref<number>();
 
   let invalidUsername = ref<string>();
   let invalidPassword = ref<string>();
@@ -101,7 +101,7 @@
       lastname: last,
       password: pass,
       email: email.value,
-      age: parseInt(age.value ? age.value : '0'),
+      age: age.value ? Math.floor(age.value) : undefined,
     };
   }
 
@@ -160,12 +160,12 @@
       <h3 class="uk-card-title">Sign Up</h3>
     </div>
     <div class="uk-card-body">
-      <input v-if="isValidFirstname" class="uk-input" placeholder="Firstname" v-model="firstname">
-      <input v-else class="uk-input uk-form-danger" placeholder="Firstname" v-model="invalidFirstname">
-      <input v-if="isValidLastname" class="uk-input uk-margin-top" placeholder="Lastname" v-model="lastname">
-      <input v-else class="uk-form-danger uk-input uk-margin-top" placeholder="Lastname" v-model="invalidLastname">
-      <input v-if="isValidUsername" class="uk-input uk-margin-top" placeholder="Username" v-model="username">
-      <input v-else class="uk-form-danger uk-input uk-margin-top" placeholder="Username" v-model="invalidUsername">
+      <input v-if="isValidFirstname" class="uk-input" placeholder="Firstname" v-model.trim="firstname">
+      <input v-else class="uk-input uk-form-danger" placeholder="Firstname" v-model.trim="invalidFirstname">
+      <input v-if="isValidLastname" class="uk-input uk-margin-top" placeholder="Lastname" v-model.trim="lastname">
+      <input v-else class="uk-form-danger uk-input uk-margin-top" placeholder="Lastname" v-model.trim="invalidLastname">
+      <input v-if="isValidUsername" class="uk-input uk-margin-top" placeholder="Username" v-model.trim="username">
+      <input v-else class="uk-form-danger uk-input uk-margin-top" placeholder="Username" v-model.trim="invalidUsername">
       <div v-if="isValidPassword">
         <input type="password" class="uk-input uk-margin-top" placeholder="Password" v-model="password">
         <input type="password" class="uk-input uk-margin-top" placeholder="Confirm Password" v-model="confPassword">
@@ -174,8 +174,8 @@
         <input type="password" class="uk-form-danger uk-input uk-margin-top" placeholder="Password" v-model="invalidPassword">
         <input type="password" class="uk-form-danger uk-input uk-margin-top" placeholder="Confirm Password" v-model="invalidConfPassword">
       </div>
-      <input type="email" class="uk-input uk-margin-top" placeholder="Email (optional)" v-model="email">
-      <input class="uk-input uk-margin-top" placeholder="Age (optional)" v-model="age">
+      <input type="email" class="uk-input uk-margin-top" placeholder="Email (optional)" v-model.trim="email">
+      <input class="uk-input uk-margin-top" placeholder="Age (optional)" type="number" min="0" v-model.number="age">
       <div class="buttonRow">
         <NuxtLink class="uk-button uk-button-default" to="/login">Login</NuxtLink>
         <button class="uk-button uk-button-primary" @click="signup">Sign Up</button>

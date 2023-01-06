@@ -20,6 +20,8 @@
               <tr>
                   <th>Recipe Name</th>
                   <th>Recipe URL</th>
+                  <th>Book</th>
+                  <th>Page #</th>
                   <th>Meal Type</th>
                   <th>Cuisine</th>
                   <th>Utils</th>
@@ -31,6 +33,8 @@
                   <td>
                     <a :href="recipe.source" target="_blank">{{ recipe.source }}</a>
                   </td>
+                  <td>{{ recipe.cookbook }}</td>
+                  <td>{{ recipe.pagenumber }}</td>
                   <td>{{ recipe.mealType }}</td>
                   <td>{{ recipe.cuisine }}</td>
                   <td>

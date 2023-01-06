@@ -7,8 +7,9 @@
   }>();
 
   interface Ingredient {
-    quantity: string,
-    name: string,
+    ingredient: string,
+    amount?: number,
+    measurement: string,
   }
 
   const cuisines = [
@@ -27,8 +28,18 @@
     'Other',
   ];
 
+  const measurements = [
+    'tsp',
+    'tbsp',
+    'cup',
+    'liter',
+    'gallon',
+  ];
+
   let recipeName = ref(props.initialData ? props.initialData.name : null);
   let recipeSource = ref(props.initialData ? props.initialData.source : null);
+  let cookbook = ref(props.initialData ? props.initialData.cookbook : null);
+  let pagenumber = ref(props.initialData ? props.initialData.pagenumber : null);
   let cuisine = ref(props.initialData ? props.initialData.cuisine : cuisines[0]);
   let mealType = ref(props.initialData ? props.initialData.mealType : mealTypes[0]);
   let ingredients = ref<Ingredient[]>(props.initialData ? props.initialData.ingredients : []);
@@ -52,8 +63,8 @@
 
   function addIngredient() {
     ingredients.value.push({
-      quantity: '',
-      name: '',
+      ingredient: '',
+      measurement: measurements[0],
     });
   }
 
@@ -61,6 +72,8 @@
     props.addRecipe({
       name: recipeName.value,
       source: recipeSource.value,
+      cookbook: cookbook.value,
+      pagenumber: pagenumber.value,
       cuisine: cuisine.value,
       mealType: mealType.value,
       ingredients: ingredients.value,
@@ -78,8 +91,10 @@
     <div class="uk-card-body">
       <div class="addRecipeContainer">
         <div class="inputColumn">
-          <input class="uk-input" placeholder="Name" v-model="recipeName">
-          <input class="uk-input" placeholder="URL" v-model="recipeSource">
+          <input class="uk-input" placeholder="Name" v-model.trim="recipeName">
+          <input class="uk-input" placeholder="URL" v-model.trim="recipeSource">
+          <input class="uk-input" placeholder="Cookbook" v-model.trim="cookbook">
+          <input class="uk-input" placeholder="Page Number" v-model.trim="pagenumber">
           <select class="uk-select" v-model="cuisine" placeholder="Cuisine">
             <option v-for="choice in cuisines" :value="choice">{{ choice }}</option>
           </select>
@@ -91,8 +106,11 @@
           <div v-if="ingredients.length > 0" class="ingredients">
             <div v-for="(ingredient, index) in ingredients" class="ingredientLine">
               <p class="index">{{ index + 1 }}:</p>
-              <input class="uk-input" placeholder="Name" v-model="ingredient.name">
-              <input class="uk-input" placeholder="Quantity" v-model="ingredient.quantity">
+              <input class="uk-input" placeholder="1.25" type="number" min="0" v-model.number="ingredient.amount">
+              <select class="uk-select" placeholder="Measurement" v-model="ingredient.measurement">
+                <option v-for="choice in measurements" :value="choice">{{ choice }}</option>
+              </select>
+              <input class="uk-input" placeholder="Name" v-model.trim="ingredient.ingredient">
               <button @click="deleteIngredient(index)" class="uk-button">Delete</button>
             </div>
           </div>
@@ -164,7 +182,7 @@
     min-width: 65vw;
   }
   .inputColumn {
-    width: 40%;
+    width: 25%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -172,7 +190,7 @@
     row-gap: 1em;
   }
   .ingredientsColumn {
-    width: 60%;
+    width: 75%;
     row-gap: 1em;
     display: flex;
     align-items: center;

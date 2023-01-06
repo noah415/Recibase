@@ -44,8 +44,8 @@
     </div>
     <div class="uk-card-body">
       <div v-if="!invalidCredentials">
-        <input class="uk-input uk-margin" placeholder="Username" v-model="username">
-        <input type="password" class="uk-input" placeholder="Password" v-model="password">
+        <input class="uk-input uk-margin" placeholder="Username" v-model.trim="username">
+        <input type="password" class="uk-input" placeholder="Password" v-model.trim="password">
       </div>
       <div v-else>
         <input class="uk-input uk-form-danger uk-margin" placeholder="Username" v-model="invalidUsername">
