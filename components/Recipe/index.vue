@@ -18,10 +18,26 @@
     instruction: string,
   }
 
+  interface Sides {
+    carb: boolean,
+    veggie: boolean,
+    fruit: boolean,
+  }
+
   const cuisines = [
     'American',
     'Asian',
+    'Italian',
     'Mexican',
+    'Other',
+  ];
+
+  const proteins = [
+    'Beef',
+    'Chicken',
+    'Pork',
+    'Seafood',
+    'Vegetarian',
     'Other',
   ];
 
@@ -35,7 +51,10 @@
   ];
 
   const measurements = [
+    '',
+    'gram',
     'tsp',
+    'oz',
     'tbsp',
     'cup',
     'liter',
@@ -48,8 +67,12 @@
   let cookbook = ref(props.initialData ? props.initialData.cookbook : null);
   let pagenumber = ref(props.initialData ? props.initialData.pagenumber : null);
   let cuisine = ref(props.initialData ? props.initialData.cuisine : cuisines[0]);
+  let protein = ref(props.initialData ? props.initialData.protein : proteins[0]);
   let mealType = ref(props.initialData ? props.initialData.mealType : mealTypes[0]);
   let ingredients = ref<Ingredient[]>(props.initialData ? props.initialData.ingredients : []);
+  let carb = ref<boolean>(props.initialData ? props.initialData.carb : false); 
+  let veggie = ref<boolean>(props.initialData ? props.initialData.veggie : false); 
+  let fruit = ref<boolean>(props.initialData ? props.initialData.fruit : false); 
 
   function onCancel() {
     clearAllData();
@@ -78,6 +101,7 @@
 
   async function saveRecipe() {
     let success = false;
+
     if (props.initialData.recipeId) {
       success = await props.addRecipe({
         recipeId: recipeId,
@@ -87,6 +111,10 @@
         pagenumber: pagenumber.value,
         cuisine: cuisine.value,
         mealType: mealType.value,
+        protein: protein.value,
+        carb: carb.value,
+        veggie: veggie.value,
+        fruit: fruit.value,
         ingredients: ingredients.value,
         instructions: [],
       });
@@ -98,6 +126,10 @@
         pagenumber: pagenumber.value,
         cuisine: cuisine.value,
         mealType: mealType.value,
+        protein: protein.value,
+        carb: carb.value,
+        veggie: veggie.value,
+        fruit: fruit.value,
         ingredients: ingredients.value,
         instructions: [],
       });
@@ -119,26 +151,41 @@
       <div class="addRecipeContainer">
         <div class="inputColumn">
           <input class="uk-input" placeholder="Name" v-model.trim="recipeName">
-          <input class="uk-input" placeholder="URL" v-model.trim="recipeSource">
-          <input class="uk-input" placeholder="Cookbook" v-model.trim="cookbook">
-          <input class="uk-input" placeholder="Page Number" type="number" v-model.number="pagenumber">
+          <select class="uk-select" v-model="protein">
+            <option v-for="choice in proteins" :value="choice">{{ choice }}</option>
+          </select>
           <select class="uk-select" v-model="cuisine" placeholder="Cuisine">
             <option v-for="choice in cuisines" :value="choice">{{ choice }}</option>
           </select>
           <select class="uk-select" v-model="mealType" placeholder="Meal Type">
             <option v-for="choice in mealTypes" :value="choice">{{ choice }}</option>
           </select>
+          <input class="uk-input" placeholder="URL (optional)" v-model.trim="recipeSource">
+          <input class="uk-input" placeholder="Cookbook (optional)" v-model.trim="cookbook">
+          <input class="uk-input" placeholder="Page # (optional)" type="number" v-model.number="pagenumber">
+          <div class="uk-margin uk-grid-small uk-child-width-auto uk-grid">
+            <p>Side</p>
+            <label><input class="uk-checkbox" type="checkbox" name="carb" v-model="carb"> Carb</label>
+            <label><input class="uk-checkbox" type="checkbox" name="veggie" v-model="veggie"> Veggie</label>
+            <label><input class="uk-checkbox" type="checkbox" name="fruit" v-model="fruit"> Fruit</label>
+          </div>
         </div>
         <div class="ingredientsColumn">
           <div v-if="ingredients.length > 0" class="ingredients">
-            <div v-for="(ingredient, index) in ingredients" class="ingredientLine">
-              <p class="index">{{ index + 1 }}:</p>
-              <input class="uk-input" placeholder="1.25" type="number" min="0" v-model.number="ingredient.amount">
-              <select class="uk-select" placeholder="Measurement" v-model="ingredient.measurement">
-                <option v-for="choice in measurements" :value="choice">{{ choice }}</option>
-              </select>
-              <input class="uk-input" placeholder="Name" v-model.trim="ingredient.ingredient">
-              <button @click="deleteIngredient(index)" class="uk-button">Delete</button>
+            <div v-for="(ingredient, index) in ingredients" class="ingredientLine uk-child-width-1-2">
+              <div class="row">
+                <div class="row">
+                  <p class="index">{{ index + 1 }}:</p>
+                </div>
+                <input class="uk-input" placeholder="1.25" type="number" min="0" v-model.number="ingredient.amount">
+                <select class="uk-select" placeholder="Measurement" v-model="ingredient.measurement">
+                  <option v-for="choice in measurements" :value="choice">{{ choice }}</option>
+                </select>
+              </div>
+              <div class="row">
+                <input class="uk-input" placeholder="Name" v-model.trim="ingredient.ingredient">
+                <button @click="deleteIngredient(index)" class="uk-button">Delete</button>
+              </div>
             </div>
           </div>
           <div v-else>
@@ -154,6 +201,13 @@
 
 
 <style>
+  .row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+  }
   .recipe {
     position: absolute;
     margin-left: auto;
@@ -183,8 +237,9 @@
     justify-content: space-between;
   }
   .index {
+    margin: 0;
     min-width: 2em;
-    text-align: end;
+    text-align: center;
   }
   .input {
     width: 70%;
@@ -195,7 +250,7 @@
   }
   .ingredientLine {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: center;
     min-width: 50ch;
     width: 100%;
@@ -232,5 +287,8 @@
     max-height: 30vh;
     overflow-y: scroll;
     overflow-x: auto;
+  }
+  .disabled {
+    color: grey;
   }
 </style>

@@ -24,21 +24,51 @@
 
 <template>
   <div class="uk-card uk-card-default uk-width-auto table">
-    <div class="uk-width-1-1">
+    <div class="container">
       <table class="uk-table uk-table-divider uk-table-hover uk-table-middle">
           <caption>Recipes</caption>
           <thead>
               <tr>
-                  <th>Recipe Name</th>
-                  <th>Recipe URL</th>
+                  <th>
+                    <button class="uk-button uk-button-default">
+                      Name
+                    </button>
+                  </th>
+                  <th>
+                    <button class="uk-button uk-button-default">
+                      URL
+                    </button>
+                  </th>
+                  <th>
+                    <button class="uk-button uk-button-default">
+                      Book
+                    </button>
+                  </th>
+                  <th>
+                    <button class="uk-button uk-button-default">
+                      Page #
+                    </button>
+                  </th>
+                  <th>
+                    <button class="uk-button uk-button-default">
+                      Type
+                    </button>
+                  </th>
+                  <th>
+                    <button class="uk-button uk-button-default">
+                      Cuisine
+                    </button>
+                  </th>
+                  <!-- <th>Recipe</th>
+                  <th>URL</th>
                   <th>Book</th>
                   <th>Page #</th>
                   <th>Meal Type</th>
-                  <th>Cuisine</th>
-                  <th>Utils</th>
+                  <th>Cuisine</th> -->
+                  <th></th>
               </tr>
           </thead>
-          <tbody>
+          <tbody class="body">
               <tr v-for="(recipe, index) in $props.recipes">
                   <td>{{ recipe.name }}</td>
                   <td>
@@ -69,5 +99,16 @@
     padding: 2ch;
     align-items: center;
     justify-content: center;
+  }
+  .container {
+    max-width: 100%;
+  }
+  .body {
+    text-align: center;
+  }
+  .tableButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
 </style>
