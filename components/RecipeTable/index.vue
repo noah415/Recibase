@@ -6,9 +6,19 @@
 
   let recipes = ref(props.recipes);
 
-  function deleteRecipe(index: number) {
-    console.log('here');
-    recipes.value.splice(index, 1);
+  async function deleteRecipe(index: number) {
+    const req = {
+      recipeId: recipes.value[index].recipeId,
+      recipeName: recipes.value[index].name,
+    }
+    const { data, error } = await deleteReq('http://localhost:5050/auth/recipe', req);
+
+    if (error?.value) {
+      console.log(error.value.data);
+    } else {
+      console.log(data.value);
+      recipes.value.splice(index, 1);
+    }
   }
 </script>
 
