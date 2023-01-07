@@ -7,6 +7,7 @@
   let recipes = ref(props.recipes);
 
   function deleteRecipe(index: number) {
+    console.log('here');
     recipes.value.splice(index, 1);
   }
 </script>

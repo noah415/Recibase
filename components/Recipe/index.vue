@@ -7,9 +7,15 @@
   }>();
 
   interface Ingredient {
+    index: number,
     ingredient: string,
     amount?: number,
     measurement: string,
+  }
+
+  interface Instruction {
+    index: number,
+    instruction: string,
   }
 
   const cuisines = [
@@ -43,6 +49,7 @@
   let cuisine = ref(props.initialData ? props.initialData.cuisine : cuisines[0]);
   let mealType = ref(props.initialData ? props.initialData.mealType : mealTypes[0]);
   let ingredients = ref<Ingredient[]>(props.initialData ? props.initialData.ingredients : []);
+  let instructions = ref<Instruction[]>(props.initialData ? props.initialData.instructions : []);
 
   function onCancel() {
     clearAllData();
@@ -63,6 +70,7 @@
 
   function addIngredient() {
     ingredients.value.push({
+      index: ingredients.value.length,
       ingredient: '',
       measurement: measurements[0],
     });
@@ -77,6 +85,7 @@
       cuisine: cuisine.value,
       mealType: mealType.value,
       ingredients: ingredients.value,
+      instructions: instructions.value,
     });
     clearAllData();
   }
@@ -94,7 +103,7 @@
           <input class="uk-input" placeholder="Name" v-model.trim="recipeName">
           <input class="uk-input" placeholder="URL" v-model.trim="recipeSource">
           <input class="uk-input" placeholder="Cookbook" v-model.trim="cookbook">
-          <input class="uk-input" placeholder="Page Number" v-model.trim="pagenumber">
+          <input class="uk-input" placeholder="Page Number" type="number" v-model.number="pagenumber">
           <select class="uk-select" v-model="cuisine" placeholder="Cuisine">
             <option v-for="choice in cuisines" :value="choice">{{ choice }}</option>
           </select>

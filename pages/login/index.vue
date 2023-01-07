@@ -25,6 +25,7 @@
     });
 
     if (error.value) {
+      console.log(error.value?.data.message);
       invalidUsername.value = username.value;
       invalidCredentials.value = true;
     } else if (data.value) {

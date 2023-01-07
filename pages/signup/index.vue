@@ -122,6 +122,7 @@
       });
 
       if (error.value) {
+        console.log(error.value?.data.message);
         if (error.value.data.message == 'username already exists') {
           isMatchingUsername.value = true;
           isValidUsername.value = false;

@@ -34,13 +34,29 @@
     isNameBlank.value = !isNameBlank.value;
   }
 
-  function addRecipe(data: any) {
+  onMounted(async () => {
+    const { data, error } = await getReq('http://localhost:5050/auth/recipe');
+    if (error?.value) {
+      console.log(error?.value.data);
+    } else {
+      recipes.value = data?.value.recipes;
+    }
+  });
+
+  async function addRecipe(data: any) {
     if (!data.name || data.name == "") {
       isNameBlank.value = true;
       return;
     }
 
     if (!checkDuplicateRecipe(data)) {
+      const resp = await postReq('http://localhost:5050/auth/recipe', data);
+      if (resp.error?.value) {
+        console.log(resp.error?.value.data);
+      } else {
+        data.id = resp.data?.value.recipeId;
+        console.log('created recipe whos id is ' + data.id);
+      }
       recipes.value.push(data);
       toggleIsAddRecipe();
     } else {
