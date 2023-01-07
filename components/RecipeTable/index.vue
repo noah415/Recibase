@@ -35,7 +35,7 @@
                     <a :href="recipe.source" target="_blank">{{ recipe.source }}</a>
                   </td>
                   <td>{{ recipe.cookbook }}</td>
-                  <td>{{ recipe.pagenumber }}</td>
+                  <td>{{ recipe.pagenumber == 0 ? null : recipe.pagenumber }}</td>
                   <td>{{ recipe.mealType }}</td>
                   <td>{{ recipe.cuisine }}</td>
                   <td>

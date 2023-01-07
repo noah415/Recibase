@@ -39,34 +39,58 @@
     if (error?.value) {
       console.log(error?.value.data);
     } else {
-      recipes.value = data?.value.recipes;
+      data?.value.recipes.forEach((recipe: any) => {
+        recipes.value.push({
+          recipeId: recipe.id,
+          cookbook: recipe.cookbook,
+          cuisine: recipe.cuisine,
+          mealType: recipe.mealType,
+          name: recipe.name,
+          notes: recipe.notes,
+          pagenumber: recipe.pagenumber,
+          source: recipe.url,
+          ingredients: recipe.ingredients,
+          instructions: recipe.instructions,
+        });
+      });
     }
   });
 
   async function addRecipe(data: any) {
     if (!data.name || data.name == "") {
       isNameBlank.value = true;
-      return;
+      return false;
     }
 
     if (!checkDuplicateRecipe(data)) {
       const resp = await postReq('http://localhost:5050/auth/recipe', data);
       if (resp.error?.value) {
         console.log(resp.error?.value.data);
+        return false;
       } else {
-        data.id = resp.data?.value.recipeId;
-        console.log('created recipe whos id is ' + data.id);
+        data.recipeId = resp.data?.value.recipeId;
+        console.log('created recipe whos id is ' + data.recipeId);
+        recipes.value.push(data);
+        toggleIsAddRecipe();
+        return true;
       }
-      recipes.value.push(data);
-      toggleIsAddRecipe();
     } else {
       console.log("duplicate recipe name");
       duplicateRecipeName.value = true;
+      return false;
     }
   }
-  function saveEditRecipe(data: any) {
-    recipes.value[selectedIndex.value!] = data;
-    toggleIsEditRecipe();
+  async function saveEditRecipe(data: any) {
+    const resp = await putReq('http://localhost:5050/auth/recipe', data);
+    if (resp.error?.value) {
+      console.log(resp.error?.value.data);
+      return false;
+    } else {
+      console.log('editted and saved recipe whos id is ' + resp.data.value.recipeId);
+      recipes.value[selectedIndex.value!] = data;
+      toggleIsEditRecipe();
+      return true;
+    }
   }
   function toggleIsAddRecipe() {
     isAddRecipe.value = !isAddRecipe.value;

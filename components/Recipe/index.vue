@@ -2,7 +2,7 @@
   const props = defineProps<{
     name: string,
     initialData: any,
-    addRecipe: (data: any) => void,
+    addRecipe: (data: any) => Promise<boolean>,
     destroy: () => void,
   }>();
 
@@ -42,6 +42,7 @@
     'gallon',
   ];
 
+  const recipeId = props.initialData.recipeId ? props.initialData.recipeId : null;
   let recipeName = ref(props.initialData ? props.initialData.name : null);
   let recipeSource = ref(props.initialData ? props.initialData.source : null);
   let cookbook = ref(props.initialData ? props.initialData.cookbook : null);
@@ -49,7 +50,6 @@
   let cuisine = ref(props.initialData ? props.initialData.cuisine : cuisines[0]);
   let mealType = ref(props.initialData ? props.initialData.mealType : mealTypes[0]);
   let ingredients = ref<Ingredient[]>(props.initialData ? props.initialData.ingredients : []);
-  let instructions = ref<Instruction[]>(props.initialData ? props.initialData.instructions : []);
 
   function onCancel() {
     clearAllData();
@@ -76,18 +76,36 @@
     });
   }
 
-  function saveRecipe() {
-    props.addRecipe({
-      name: recipeName.value,
-      source: recipeSource.value,
-      cookbook: cookbook.value,
-      pagenumber: pagenumber.value,
-      cuisine: cuisine.value,
-      mealType: mealType.value,
-      ingredients: ingredients.value,
-      instructions: instructions.value,
-    });
-    clearAllData();
+  async function saveRecipe() {
+    let success = false;
+    if (props.initialData.recipeId) {
+      success = await props.addRecipe({
+        recipeId: recipeId,
+        name: recipeName.value,
+        source: recipeSource.value,
+        cookbook: cookbook.value,
+        pagenumber: pagenumber.value,
+        cuisine: cuisine.value,
+        mealType: mealType.value,
+        ingredients: ingredients.value,
+        instructions: [],
+      });
+    } else {
+      success = await props.addRecipe({
+        name: recipeName.value,
+        source: recipeSource.value,
+        cookbook: cookbook.value,
+        pagenumber: pagenumber.value,
+        cuisine: cuisine.value,
+        mealType: mealType.value,
+        ingredients: ingredients.value,
+        instructions: [],
+      });
+    }
+
+    if (success) {
+      clearAllData();
+    }
   }
 </script>
 

@@ -65,9 +65,6 @@
     <span class="uk-margin-right">Hello, {{ username }}</span>
     <NuxtLink class="uk-button uk-button-danger" to="/login">Logout</NuxtLink>
   </div>
-  <Recipe v-if="isAddRecipe" initial-data="" :destroy="toggleIsAddRecipe" :add-recipe="addRecipe" name="Let's add a recipe!"/>
-  <button @click="toggleIsAddRecipe" class="uk-button uk-card-default" v-else>Add Recipe</button>
-  <Recipe v-if="isEditRecipe" :initial-data="selectedRecipe" :destroy="toggleIsEditRecipe" :add-recipe="saveEditRecipe" name="Let's edit a recipe!"/>
   <RecipeTable :recipes="recipes" :on-edit-recipe="selectRecipe"/>
   <div v-if="isNameBlank" @hide="toggleEmpty" class="uk-alert-danger alert" uk-alert>
     <a class="uk-alert-close" uk-close></a>
